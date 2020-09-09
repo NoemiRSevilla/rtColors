@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dojo Survey</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script>
+        $(document).ready(function () {
+            var socket = io(); //initially the client will request a web page from tdhe server by connecting to our server via our port "localhost:1337". The server then sends back the index.html file as shown above. The script will run on the client's browser and connect to our server via sockets.
+
+            $("#greenLink").click(function (e) {
+                e.preventDefault();
+                socket.emit('update', { color: "green" });
+            });
+
+            $("#blueLink").click(function (e) {
+                e.preventDefault();
+                socket.emit('update', { color: "blue" });
+            });
+
+            $("#pinkLink").click(function (e) {
+                e.preventDefault();
+                socket.emit('update', { color: "pink" });
+            });
+
+            socket.on('color', function (g) { //The server's listener with the matching 'thank you' label will be triggered...
+
+                var theColor = g.color;
+                $("body").css("background-color", g.color);
+            });
+
+            socket.on('update', function(g){
+                var theColor = g.color
+                $("body").css("background-color", g.color);
+            })
+        });
+    </script>
+    <script type="text/javascript"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/views/css/css.css">
+</head>
+
+<body>
+    <div class="bigbox container">
+
+        <a href ="/green" id="greenLink">
+            <div class="container box green"><h6>GREEN</h6></div>
+        </a>
+
+        <a href="/blue" id="blueLink">
+        <div class="container box blue"><h6>BLUE</h6></div>
+        </a>
+        
+        <a href="/pink" id="pinkLink">
+            <div id="pink" class="container pink"><h6>PINK</h6></div>
+        </a>
+        
+</div>
+</body>
+
+</html>
